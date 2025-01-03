@@ -2,7 +2,7 @@ name: Allure Report Pipeline
 on:
   push:
     branches:
-      - feature-chathura
+      - main
 
 jobs:
   build-and-test:
@@ -55,7 +55,7 @@ jobs:
 
 
       - name: Deploy Combined Allure Report to GitHub Pages
-        if: success() && github.ref == 'refs/heads/feature-chathura'
+        if: success() && github.ref == 'refs/heads/main'
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
