@@ -4,9 +4,12 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import io.restassured.response.Response;
+import org.example.BaseConfig;
+
 import static io.restassured.RestAssured.given;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +21,7 @@ public class GetBookStepDefinition {
 
     @Given("the API endpoint is {string}")
     public void the_api_endpoint_is(String apiEndpoint) {
-        endpoint = "http://localhost:7081" + apiEndpoint;
+        endpoint = BaseConfig.getEndpointUrl(apiEndpoint);
     }
 
     @When("the user sends a GET request")

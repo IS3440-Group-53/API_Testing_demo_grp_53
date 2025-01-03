@@ -7,16 +7,18 @@ import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.example.BaseConfig;
 import org.testng.Assert;
 
 public class DeleteBookStepDefinition {
 
     private Response response;
     private int bookId;
+    private String username;
+    private String password;
 
-    @Given("the API base URL is {string}")
-    public void setBaseUrl(String baseUrl) {
-        RestAssured.baseURI = baseUrl;
+    public DeleteBookStepDefinition() {
+        RestAssured.baseURI = BaseConfig.BASE_URL;
     }
 
     @Given("the API endpoint for deleting a book is {string}")
@@ -24,19 +26,18 @@ public class DeleteBookStepDefinition {
         this.bookId = Integer.parseInt(endpoint.split("/")[3]);
     }
 
-    @Given("the user provides valid credentials {string} and {string}")
-    public void theUserProvidesValidCredentials(String username, String password) {
-        RestAssured.given()
-                .auth()
-                .basic(username, password);
+    @Given("the user or admin provides valid credentials {string} and {string}")
+    public void theUserOrAdminProvidesValidCredentials(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
-    @When("the user sends a DELETE request")
-    public void theUserSendsADeleteRequest() {
+    @When("the {string} sends a DELETE request")
+    public void theUserOrAdminSendsADeleteRequest(String userType) {
         String endpoint = "/api/books/" + bookId;
         RequestSpecification request = RestAssured.given()
                 .auth()
-                .basic("user", "password")
+                .basic(username, password)
                 .header("Content-Type", "application/json");
 
         response = request.delete(endpoint);
@@ -44,13 +45,20 @@ public class DeleteBookStepDefinition {
         System.out.println("Response body: " + response.getBody().asString());
     }
 
-    @Then("the response status code should be {int}")
+    @Then("response status code should be {int}")
     public void theResponseStatusCodeShouldBe(int expectedStatusCode) {
         int actualStatusCode = response.getStatusCode();
         if (actualStatusCode != expectedStatusCode) {
             Assert.fail("Expected status code " + expectedStatusCode + " but got " + actualStatusCode);
         }
         Assert.assertEquals(actualStatusCode, expectedStatusCode);
+    }
+
+    @And("the response message should be {string}")
+    public void theResponseMessageShouldBe(String expectedMessage) {
+        String responseMessage = response.getBody().asString();
+        Assert.assertTrue(responseMessage.contains(expectedMessage),
+                "Expected message '" + expectedMessage + "' but got: " + responseMessage);
     }
 
     @And("the response message should confirm deletion")

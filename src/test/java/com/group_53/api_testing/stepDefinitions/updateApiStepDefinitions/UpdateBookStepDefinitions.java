@@ -1,36 +1,29 @@
 package com.group_53.api_testing.stepDefinitions.updateApiStepDefinitions;
 
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import io.cucumber.java.en.*;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.example.BaseConfig;
 import org.testng.Assert;
-import java.util.UUID;
-
 
 public class UpdateBookStepDefinitions {
     private Response response;
     private int bookId;
 
-    @Given("the API base URL is {string}")
-    public void setBaseUrl(String baseUrl) {
-        RestAssured.baseURI = baseUrl;
+    public UpdateBookStepDefinitions() {
+        RestAssured.baseURI = BaseConfig.BASE_URL;
     }
 
     @Given("a book exists with id {int}")
     public void aBookExistsWithId(int id) {
         this.bookId = id;
-        // TODO: Implement a check to ensure the book exists
     }
 
     @When("I send a PUT request to {string} with the following payload")
     public void iSendAPutRequestToWithTheFollowingPayload(String endpoint, String payload) {
         String uniqueSuffix = System.currentTimeMillis() + "_" + (int)(Math.random() * 1000);
-
         payload = payload.replace("{title}", "UniqueTitle_" + uniqueSuffix)
                 .replace("{author}", "UniqueAuthor_" + uniqueSuffix);
 
@@ -40,9 +33,6 @@ public class UpdateBookStepDefinitions {
                 .header("Content-Type", "application/json")
                 .body(payload);
         response = request.put(endpoint);
-
-        System.out.println("Response status code: " + response.getStatusCode());
-        System.out.println("Response body: " + response.getBody().asString());
     }
 
     @When("I send a PUT request to {string} as a user with the following payload")
@@ -52,23 +42,17 @@ public class UpdateBookStepDefinitions {
                 .basic("user", "password")
                 .header("Content-Type", "application/json")
                 .body(payload);
-
         response = request.put(endpoint);
-        System.out.println("Response status code: " + response.getStatusCode());
-        System.out.println("Response body: " + response.getBody().asString());
     }
 
-
-
-    @Then("the response status code should be {int}")
+    @Then("the res status code should be {int}")
     public void verifyStatusCode(int expectedStatusCode) {
-        int actualResponse  = response.getStatusCode();
+        int actualResponse = response.getStatusCode();
         if (actualResponse != expectedStatusCode) {
             Assert.fail("BUG: Expected status code " + expectedStatusCode + " but got " + actualResponse);
         }
         Assert.assertEquals(expectedStatusCode, actualResponse);
     }
-
 
     @And("the response body should contain:")
     public void theResponseBodyShouldContain(String expectedResponseBody) {
@@ -88,16 +72,17 @@ public class UpdateBookStepDefinitions {
         Assert.assertTrue(actualResponseBody.contains(expectedErrorMessage.trim()),
                 "Error message not found in response");
     }
+
     @And("the response body should contain invalid id error message:")
     public void verifyInvalidIdResponseBody(String expectedErrorMessage) {
         String actualResponseBody = response.getBody().asString();
         Assert.assertTrue(actualResponseBody.contains(expectedErrorMessage.trim()),
                 "Error message not found in response");
     }
+
     @And("the response body should contain an authorization error message:")
     public void verifyUnauthorizedAccessResponseBody(String expectedErrorMessage) {
         String actualResponseBody = response.getBody().asString();
-        System.out.println("jjjjjjjjj"+ actualResponseBody);
         Assert.assertTrue(actualResponseBody.contains(expectedErrorMessage.trim()),
                 "Error message not found in response");
     }
