@@ -29,10 +29,8 @@ public class UpdateBookStepDefinitions {
 
     @When("I send a PUT request to {string} with the following payload")
     public void iSendAPutRequestToWithTheFollowingPayload(String endpoint, String payload) {
-        // Generate unique suffix using timestamp
         String uniqueSuffix = System.currentTimeMillis() + "_" + (int)(Math.random() * 1000);
 
-        // Replace placeholders in the payload with unique values
         payload = payload.replace("{title}", "UniqueTitle_" + uniqueSuffix)
                 .replace("{author}", "UniqueAuthor_" + uniqueSuffix);
 
@@ -51,11 +49,11 @@ public class UpdateBookStepDefinitions {
     public void sendAPutRequestAsUser(String endpoint, String payload) {
         RequestSpecification request = RestAssured.given()
                 .auth()
-                .basic("user", "password") // Ensure the API supports Basic Authentication
+                .basic("user", "password")
                 .header("Content-Type", "application/json")
                 .body(payload);
 
-        response = request.put(endpoint); // Ensure 'response' is properly scoped
+        response = request.put(endpoint);
         System.out.println("Response status code: " + response.getStatusCode());
         System.out.println("Response body: " + response.getBody().asString());
     }

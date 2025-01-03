@@ -25,7 +25,7 @@ public class GetBookStepDefinition {
     public void the_user_sends_a_get_request() {
         response = given()
                 .auth()
-                .basic("admin", "password") // Use "user" credentials if needed
+                .basic("admin", "password")
                 .when()
                 .get(endpoint);
     }

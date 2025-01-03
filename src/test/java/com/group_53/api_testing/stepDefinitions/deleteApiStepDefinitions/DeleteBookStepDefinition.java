@@ -21,27 +21,25 @@ public class DeleteBookStepDefinition {
 
     @Given("the API endpoint for deleting a book is {string}")
     public void theApiEndpointForDeletingABookIs(String endpoint) {
-        // Set the endpoint here, we will use this in the DELETE request
-        this.bookId = Integer.parseInt(endpoint.split("/")[3]); // Extracting book ID from the endpoint URL
+        this.bookId = Integer.parseInt(endpoint.split("/")[3]);
     }
 
     @Given("the user provides valid credentials {string} and {string}")
     public void theUserProvidesValidCredentials(String username, String password) {
-        // Assuming basic authentication, if needed in your case
         RestAssured.given()
                 .auth()
-                .basic(username, password); // Set credentials for authentication
+                .basic(username, password);
     }
 
     @When("the user sends a DELETE request")
     public void theUserSendsADeleteRequest() {
-        String endpoint = "/api/books/" + bookId; // Assuming that bookId is passed dynamically
+        String endpoint = "/api/books/" + bookId;
         RequestSpecification request = RestAssured.given()
                 .auth()
-                .basic("user", "password")  // Use actual credentials if needed
+                .basic("user", "password")
                 .header("Content-Type", "application/json");
 
-        response = request.delete(endpoint); // Send DELETE request
+        response = request.delete(endpoint);
         System.out.println("Response status code: " + response.getStatusCode());
         System.out.println("Response body: " + response.getBody().asString());
     }
@@ -57,8 +55,7 @@ public class DeleteBookStepDefinition {
 
     @And("the response message should confirm deletion")
     public void theResponseMessageShouldConfirmDeletion() {
-        String responseMessage = response.getBody().asString(); // Get the response message
-        // Verify the response contains the expected confirmation message
+        String responseMessage = response.getBody().asString();
         Assert.assertTrue(responseMessage.contains("deleted successfully"),
                 "The response message does not confirm deletion");
     }
