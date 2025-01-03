@@ -1,6 +1,12 @@
 package com.group_53.api_testing.stepDefinitions.updateApiStepDefinitions;
 
-import io.cucumber.java.en.*;
+
+import io.qameta.allure.Attachment;
+import io.qameta.allure.Step;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -12,15 +18,18 @@ public class UpdateBookStepDefinitions {
     private Response response;
     private int bookId;
 
+
     public UpdateBookStepDefinitions() {
         RestAssured.baseURI = BaseConfig.BASE_URL;
     }
 
+    @Step("Verifying a book exists with ID {id}")
     @Given("a book exists with id {int}")
     public void aBookExistsWithId(int id) {
         this.bookId = id;
     }
 
+    @Step("Sending PUT request to {endpoint} with admin credentials and payload")
     @When("I send a PUT request to {string} with the following payload")
     public void iSendAPutRequestToWithTheFollowingPayload(String endpoint, String payload) {
         String uniqueSuffix = System.currentTimeMillis() + "_" + (int)(Math.random() * 1000);
@@ -33,8 +42,11 @@ public class UpdateBookStepDefinitions {
                 .header("Content-Type", "application/json")
                 .body(payload);
         response = request.put(endpoint);
+
+        logResponse(response);
     }
 
+    @Step("Sending PUT request to {endpoint} with user credentials and payload")
     @When("I send a PUT request to {string} as a user with the following payload")
     public void sendAPutRequestAsUser(String endpoint, String payload) {
         RequestSpecification request = RestAssured.given()
@@ -42,10 +54,14 @@ public class UpdateBookStepDefinitions {
                 .basic("user", "password")
                 .header("Content-Type", "application/json")
                 .body(payload);
+
+
         response = request.put(endpoint);
+        logResponse(response);
     }
 
-    @Then("the res status code should be {int}")
+    @Step("Validating response status code is {expectedStatusCode}")
+    @Then("the response status code should be {int}")
     public void verifyStatusCode(int expectedStatusCode) {
         int actualResponse = response.getStatusCode();
         if (actualResponse != expectedStatusCode) {
@@ -53,6 +69,9 @@ public class UpdateBookStepDefinitions {
         }
         Assert.assertEquals(expectedStatusCode, actualResponse);
     }
+
+
+    @Step("Validating response body contains book details")
 
     @And("the response body should contain:")
     public void theResponseBodyShouldContain(String expectedResponseBody) {
@@ -66,6 +85,7 @@ public class UpdateBookStepDefinitions {
         }
     }
 
+    @Step("Validating response body contains error message {expectedErrorMessage}")
     @And("the response body should contain error message:")
     public void verifyErrorResponseBody(String expectedErrorMessage) {
         String actualResponseBody = response.getBody().asString();
@@ -73,6 +93,8 @@ public class UpdateBookStepDefinitions {
                 "Error message not found in response");
     }
 
+
+    @Step("Validating response body contains invalid ID error message {expectedErrorMessage}")
     @And("the response body should contain invalid id error message:")
     public void verifyInvalidIdResponseBody(String expectedErrorMessage) {
         String actualResponseBody = response.getBody().asString();
@@ -80,10 +102,18 @@ public class UpdateBookStepDefinitions {
                 "Error message not found in response");
     }
 
+
+    @Step("Validating response body contains authorization error message {expectedErrorMessage}")
     @And("the response body should contain an authorization error message:")
     public void verifyUnauthorizedAccessResponseBody(String expectedErrorMessage) {
         String actualResponseBody = response.getBody().asString();
+        logResponse(response); // Log the response for Allure reports
         Assert.assertTrue(actualResponseBody.contains(expectedErrorMessage.trim()),
                 "Error message not found in response");
+    }
+
+    @Attachment(value = "Response Log", type = "text/plain")
+    private String logResponse(Response response) {
+        return response.prettyPrint();
     }
 }
