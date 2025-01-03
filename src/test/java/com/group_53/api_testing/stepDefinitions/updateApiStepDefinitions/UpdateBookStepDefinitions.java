@@ -1,6 +1,5 @@
 package com.group_53.api_testing.stepDefinitions.updateApiStepDefinitions;
 
-
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -10,6 +9,7 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.testng.Assert;
+import java.util.UUID;
 
 
 public class UpdateBookStepDefinitions {
@@ -29,15 +29,24 @@ public class UpdateBookStepDefinitions {
 
     @When("I send a PUT request to {string} with the following payload")
     public void iSendAPutRequestToWithTheFollowingPayload(String endpoint, String payload) {
+        // Generate unique suffix using timestamp
+        String uniqueSuffix = System.currentTimeMillis() + "_" + (int)(Math.random() * 1000);
+
+        // Replace placeholders in the payload with unique values
+        payload = payload.replace("{title}", "UniqueTitle_" + uniqueSuffix)
+                .replace("{author}", "UniqueAuthor_" + uniqueSuffix);
+
         RequestSpecification request = RestAssured.given()
                 .auth()
                 .basic("admin", "password")
                 .header("Content-Type", "application/json")
                 .body(payload);
         response = request.put(endpoint);
+
         System.out.println("Response status code: " + response.getStatusCode());
         System.out.println("Response body: " + response.getBody().asString());
     }
+
     @When("I send a PUT request to {string} as a user with the following payload")
     public void sendAPutRequestAsUser(String endpoint, String payload) {
         RequestSpecification request = RestAssured.given()
@@ -68,7 +77,7 @@ public class UpdateBookStepDefinitions {
         try {
             JsonPath jsonPath = response.jsonPath();
             Assert.assertEquals(jsonPath.getInt("id"), bookId);
-            Assert.assertEquals(jsonPath.getString("title"), "Jane and Dog");
+            Assert.assertEquals(jsonPath.getString("title"), "Jane and Dogs");
             Assert.assertEquals(jsonPath.getString("author"), "John Richard");
         } catch (Exception e) {
             Assert.fail("An error occurred during JSON processing: " + e.getMessage());
@@ -94,6 +103,4 @@ public class UpdateBookStepDefinitions {
         Assert.assertTrue(actualResponseBody.contains(expectedErrorMessage.trim()),
                 "Error message not found in response");
     }
-
-
 }

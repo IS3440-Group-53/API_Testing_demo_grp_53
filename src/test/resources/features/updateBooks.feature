@@ -2,12 +2,12 @@ Feature: Update Book API
 
   Scenario: Successfully update a book
     Given the API base URL is "http://localhost:7081"
-    And a book exists with id 2
-    When I send a PUT request to "/api/books/2" with the following payload
+    And a book exists with id 1
+    When I send a PUT request to "/api/books/1" with the following payload
   """
   {
-    "id": 2,
-    "title": "Jane and Dog",
+    "id": 1,
+    "title": "Jane and Dogs",
     "author": "John Richard"
   }
   """
@@ -15,8 +15,8 @@ Feature: Update Book API
     And the response body should contain:
   """
   {
-     "id": 2,
-    "title": "Jane and Dog",
+     "id": 1,
+    "title": "Jane and Dogs",
     "author": "John Richard"
   }
   """
