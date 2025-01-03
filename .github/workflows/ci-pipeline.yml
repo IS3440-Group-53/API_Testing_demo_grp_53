@@ -35,7 +35,7 @@ jobs:
       # Step 4: Start API JAR Server
       - name: Start API JAR Server
         run: |
-          nohup java -jar API/env/demo-0.0.1-SNAPSHOT.jar &
+          nohup java -jar env/demo-0.0.1-SNAPSHOT.jar &
           sleep 5 # Give time for the server to start 
 
       # Step 12: Install Maven dependencies
