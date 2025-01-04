@@ -10,11 +10,16 @@ import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.example.BaseConfig;
 import org.testng.Assert;
+import static com.group_53.api_testing.stepDefinitions.APIClass.response;
 
 public class UpdateBookStepDefinitions {
-    private Response response;
     private int bookId;
+
+    public UpdateBookStepDefinitions() {
+        RestAssured.baseURI = BaseConfig.BASE_URL;
+    }
 
     @Step("Setting API base URL to {baseUrl}")
     @Given("the API base URL is {string}")
@@ -55,7 +60,7 @@ public class UpdateBookStepDefinitions {
     }
 
     @Step("Validating response status code is {expectedStatusCode}")
-    @Then("the response status code should be {int}")
+    @Then("the res status code should be {int}")
     public void verifyStatusCode(int expectedStatusCode) {
         int actualResponse = response.getStatusCode();
         if (actualResponse != expectedStatusCode) {
