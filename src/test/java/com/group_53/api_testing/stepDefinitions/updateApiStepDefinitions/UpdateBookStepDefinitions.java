@@ -1,6 +1,5 @@
 package com.group_53.api_testing.stepDefinitions.updateApiStepDefinitions;
 
-
 import io.qameta.allure.Attachment;
 import io.qameta.allure.Step;
 import io.cucumber.java.en.And;
@@ -13,14 +12,19 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.example.BaseConfig;
 import org.testng.Assert;
+import static com.group_53.api_testing.stepDefinitions.APIClass.response;
 
 public class UpdateBookStepDefinitions {
-    private Response response;
     private int bookId;
-
 
     public UpdateBookStepDefinitions() {
         RestAssured.baseURI = BaseConfig.BASE_URL;
+    }
+
+    @Step("Setting API base URL to {baseUrl}")
+    @Given("the API base URL is {string}")
+    public void setBaseUrl(String baseUrl) {
+        RestAssured.baseURI = baseUrl;
     }
 
     @Step("Verifying a book exists with ID {id}")
@@ -42,7 +46,6 @@ public class UpdateBookStepDefinitions {
                 .header("Content-Type", "application/json")
                 .body(payload);
         response = request.put(endpoint);
-
         logResponse(response);
     }
 
@@ -55,13 +58,12 @@ public class UpdateBookStepDefinitions {
                 .header("Content-Type", "application/json")
                 .body(payload);
 
-
         response = request.put(endpoint);
         logResponse(response);
     }
 
     @Step("Validating response status code is {expectedStatusCode}")
-    @Then("the response status code should be {int}")
+    @Then("the res status code should be {int}")
     public void verifyStatusCode(int expectedStatusCode) {
         int actualResponse = response.getStatusCode();
         if (actualResponse != expectedStatusCode) {
@@ -70,9 +72,7 @@ public class UpdateBookStepDefinitions {
         Assert.assertEquals(expectedStatusCode, actualResponse);
     }
 
-
     @Step("Validating response body contains book details")
-
     @And("the response body should contain:")
     public void theResponseBodyShouldContain(String expectedResponseBody) {
         try {
@@ -93,7 +93,6 @@ public class UpdateBookStepDefinitions {
                 "Error message not found in response");
     }
 
-
     @Step("Validating response body contains invalid ID error message {expectedErrorMessage}")
     @And("the response body should contain invalid id error message:")
     public void verifyInvalidIdResponseBody(String expectedErrorMessage) {
@@ -101,7 +100,6 @@ public class UpdateBookStepDefinitions {
         Assert.assertTrue(actualResponseBody.contains(expectedErrorMessage.trim()),
                 "Error message not found in response");
     }
-
 
     @Step("Validating response body contains authorization error message {expectedErrorMessage}")
     @And("the response body should contain an authorization error message:")

@@ -3,13 +3,13 @@ package com.group_53.api_testing.stepDefinitions.getApiStepDefinitions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
-import io.restassured.response.Response;
+import io.restassured.RestAssured;
 import org.example.BaseConfig;
 
+import static com.group_53.api_testing.stepDefinitions.APIClass.response;
 import static io.restassured.RestAssured.given;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
-
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +17,10 @@ import java.util.Map;
 public class GetBookStepDefinition {
 
     private String endpoint;
-    private Response response;
+
+    public GetBookStepDefinition() {
+        RestAssured.baseURI = BaseConfig.BASE_URL;
+    }
 
     @Given("the API endpoint is {string}")
     public void the_api_endpoint_is(String apiEndpoint) {

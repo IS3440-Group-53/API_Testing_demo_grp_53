@@ -1,10 +1,7 @@
 package org.example;
 
-
-
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.example.BaseConfig;
 
 public class TestDataSetup {
     public static void createTestBooks() {

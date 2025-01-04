@@ -1,11 +1,11 @@
 Feature: Update Book API
 
   Scenario: Successfully update a book
-    Given a book exists with id 1
-    When I send a PUT request to "/api/books/1" with the following payload
+    Given a book exists with id 2
+    When I send a PUT request to "/api/books/2" with the following payload
     """
     {
-      "id": 1,
+      "id": 2,
       "title": "Jane and Dogs",
       "author": "John Richard"
     }

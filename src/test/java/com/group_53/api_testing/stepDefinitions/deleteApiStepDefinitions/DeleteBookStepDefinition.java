@@ -5,14 +5,13 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
-import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.example.BaseConfig;
 import org.testng.Assert;
+import static com.group_53.api_testing.stepDefinitions.APIClass.response;
 
 public class DeleteBookStepDefinition {
 
-    private Response response;
     private int bookId;
     private String username;
     private String password;

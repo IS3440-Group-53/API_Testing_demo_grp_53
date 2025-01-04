@@ -13,7 +13,6 @@ import org.testng.annotations.BeforeClass;
 
 )
 public class  RunCucumberTest extends AbstractTestNGCucumberTests {
-
     @BeforeClass
     public static void setup() {
         TestDataSetup.createTestBooks();

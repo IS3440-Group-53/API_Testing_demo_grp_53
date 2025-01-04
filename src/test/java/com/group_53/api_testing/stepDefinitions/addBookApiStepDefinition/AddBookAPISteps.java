@@ -1,4 +1,4 @@
-package com.group_53.api_testing.stepDefinitions.updateApiStepDefinitions;
+package com.group_53.api_testing.stepDefinitions.addBookApiStepDefinition;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -7,13 +7,17 @@ import io.qameta.allure.Attachment;
 import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import org.example.BaseConfig;
 import org.testng.Assert;
+import static com.group_53.api_testing.stepDefinitions.APIClass.response;
 
 import static io.restassured.RestAssured.given;
 
 public class AddBookAPISteps {
 
-    private Response response;
+    public AddBookAPISteps() {
+        RestAssured.baseURI = BaseConfig.BASE_URL;
+    }
 
     @Step("Setting base URI as an admin user")
     @Given("I am an admin user")
