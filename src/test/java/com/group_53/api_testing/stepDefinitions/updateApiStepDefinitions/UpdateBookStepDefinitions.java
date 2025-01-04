@@ -31,12 +31,15 @@ public class UpdateBookStepDefinitions {
     @Given("a book exists with id {int}")
     public void aBookExistsWithId(int id) {
         this.bookId = id;
-        // TODO: Implement a check to ensure the book exists
     }
 
     @Step("Sending PUT request to {endpoint} with admin credentials and payload")
     @When("I send a PUT request to {string} with the following payload")
     public void iSendAPutRequestToWithTheFollowingPayload(String endpoint, String payload) {
+        String uniqueSuffix = System.currentTimeMillis() + "_" + (int)(Math.random() * 1000);
+        payload = payload.replace("{title}", "UniqueTitle_" + uniqueSuffix)
+                .replace("{author}", "UniqueAuthor_" + uniqueSuffix);
+
         RequestSpecification request = RestAssured.given()
                 .auth()
                 .basic("admin", "password")
@@ -51,7 +54,7 @@ public class UpdateBookStepDefinitions {
     public void sendAPutRequestAsUser(String endpoint, String payload) {
         RequestSpecification request = RestAssured.given()
                 .auth()
-                .basic("user", "password") // Ensure the API supports Basic Authentication
+                .basic("user", "password")
                 .header("Content-Type", "application/json")
                 .body(payload);
 
@@ -75,7 +78,7 @@ public class UpdateBookStepDefinitions {
         try {
             JsonPath jsonPath = response.jsonPath();
             Assert.assertEquals(jsonPath.getInt("id"), bookId);
-            Assert.assertEquals(jsonPath.getString("title"), "Jane and Dog");
+            Assert.assertEquals(jsonPath.getString("title"), "Jane and Dogs");
             Assert.assertEquals(jsonPath.getString("author"), "John Richard");
         } catch (Exception e) {
             Assert.fail("An error occurred during JSON processing: " + e.getMessage());
