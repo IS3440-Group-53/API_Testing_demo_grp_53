@@ -1,0 +1,18 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","109","Admin tries to add a book with an integer as the author (BUG EXPECTED)","","Sat Jan 04 17:04:26 UTC 2025","failed","Sat Jan 04 17:04:26 UTC 2025","","Add new book to the system","Admin tries to add a book with an integer as the author (BUG EXPECTED)",""
+"","452","Admin adds a new book successfully","","Sat Jan 04 17:04:25 UTC 2025","passed","Sat Jan 04 17:04:26 UTC 2025","","Add new book to the system","Admin adds a new book successfully",""
+"","105","Admin adds a book with unexpected attributes in the payload (BUG EXPECTED)","","Sat Jan 04 17:04:26 UTC 2025","failed","Sat Jan 04 17:04:26 UTC 2025","","Add new book to the system","Admin adds a book with unexpected attributes in the payload (BUG EXPECTED)",""
+"","94","Update a book with invalid ID","","Sat Jan 04 17:04:26 UTC 2025","passed","Sat Jan 04 17:04:26 UTC 2025","","Update Book API","Update a book with invalid ID",""
+"","106","User tries to add a new book","","Sat Jan 04 17:04:26 UTC 2025","passed","Sat Jan 04 17:04:26 UTC 2025","","Add new book to the system","User tries to add a new book",""
+"","106","Admin sends a POST request with missing values in the payload (BUG EXPECTED)","","Sat Jan 04 17:04:26 UTC 2025","failed","Sat Jan 04 17:04:26 UTC 2025","","Add new book to the system","Admin sends a POST request with missing values in the payload (BUG EXPECTED)",""
+"","105","Validate that numbers are not accepted in title and author fields","","Sat Jan 04 17:04:27 UTC 2025","failed","Sat Jan 04 17:04:27 UTC 2025","","Update Book API","Validate that numbers are not accepted in title and author fields",""
+"","140","User deletes a book by its ID successfully","","Sat Jan 04 17:04:25 UTC 2025","failed","Sat Jan 04 17:04:25 UTC 2025","","Delete a book by its ID","User deletes a book by its ID successfully",""
+"","119","Admin attempts to delete a book but is not permitted","","Sat Jan 04 17:04:25 UTC 2025","passed","Sat Jan 04 17:04:25 UTC 2025","","Delete a book by its ID","Admin attempts to delete a book but is not permitted",""
+"","127","Successfully update a book","","Sat Jan 04 17:04:26 UTC 2025","passed","Sat Jan 04 17:04:26 UTC 2025","","Update Book API","Successfully update a book",""
+"  To ensure the proper functioning of the library system,
+  users should be able to retrieve details of books using APIs.","97","Retrieve a book by its ID","","Sat Jan 04 17:04:25 UTC 2025","failed","Sat Jan 04 17:04:25 UTC 2025","","Fetch Book Details","Retrieve a book by its ID",""
+"","95","validate with empty string for author and title field","","Sat Jan 04 17:04:27 UTC 2025","failed","Sat Jan 04 17:04:27 UTC 2025","","Update Book API","validate with empty string for author and title field",""
+"  To ensure the proper functioning of the library system,
+  users should be able to retrieve details of books using APIs.","186","Retrieve all books","","Sat Jan 04 17:04:25 UTC 2025","passed","Sat Jan 04 17:04:25 UTC 2025","","Fetch Book Details","Retrieve all books",""
+"","90","Update a book as a user","","Sat Jan 04 17:04:26 UTC 2025","passed","Sat Jan 04 17:04:27 UTC 2025","","Update Book API","Update a book as a user",""
+"","95","update a book with invalid payload","","Sat Jan 04 17:04:26 UTC 2025","passed","Sat Jan 04 17:04:26 UTC 2025","","Update Book API","update a book with invalid payload",""
